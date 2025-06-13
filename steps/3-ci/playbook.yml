@@ -1,0 +1,10 @@
+---
+- name: Install GitHub Actions Runner
+  hosts: all
+  user: ansible
+  become: yes
+  vars:
+    - github_account: t-frog-says-jump
+    - github_repo: hello-most
+  roles:
+    - role: monolithprojects.github_actions_runner
