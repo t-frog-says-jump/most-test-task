@@ -4,7 +4,15 @@
   user: ansible
   become: yes
   vars:
-    - github_account: t-frog-says-jump
-    - github_repo: hello-most
+    github_account: t-frog-says-jump
+    github_repo: hello-most
+    user_management:
+    - name: Runner 
+      comment: Runner
+      shell: /bin/bash
+      groups:
+        - sudo
+      create_home: no
   roles:
-    - role: monolithprojects.github_actions_runner
+    - role: ansible-user_management
+    - role: ansible-github_actions_runner
