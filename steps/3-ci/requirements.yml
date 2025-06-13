@@ -1,4 +1,8 @@
 roles:
- - name: monolithprojects.github_actions_runner
+ - name: ansible-user_management
    version: 1.21.1
    src: https://github.com/MonolithProjects/ansible-github_actions_runner
+
+ - name: ansible-user_management
+   version: 1.1.7
+   src: https://github.com/MonolithProjects/ansible-user_management
