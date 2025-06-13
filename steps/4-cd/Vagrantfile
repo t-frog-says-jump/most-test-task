@@ -1,0 +1,31 @@
+require_relative './access_token.rb'
+
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "gusztavvargadr/ubuntu-server-2204-lts"
+  config.vm.box_version = "2204.0.2505"
+
+  (1..2).each do |i|
+    config.vm.define "ubuntu-server-#{i}" do |node|
+      node.vm.network "private_network", ip: "192.168.56.10#{i}"
+
+      node.vm.provider "virtualbox" do |virtualbox|
+        virtualbox.gui = false
+        virtualbox.linked_clone = false
+        virtualbox.memory = "4096"
+        virtualbox.cpus=2
+      end
+
+      node.vm.box_check_update = false
+
+      if i == 1
+        node.vm.provision :ansible do |ansible|
+          ansible.host_vars = {
+            "ubuntu-server-#{i}" => {"PERSONAL_ACCESS_TOKEN" =>  Access_token::Github_access_token}
+          }
+          ansible.playbook = "playbook.yml"
+        end
+      end
+    end
+  end
+end

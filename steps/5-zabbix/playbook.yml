@@ -1,0 +1,31 @@
+---
+- name: Install GitHub Actions Runner
+  hosts: all
+  user: ansible
+  become: yes
+  vars:
+    github_account: t-frog-says-jump
+    github_repo: hello-most
+    user_management:
+    - name: Runner 
+      comment: Runner
+      shell: /bin/bash
+      groups:
+        - sudo
+      create_home: no
+  tasks:
+  - name: Create user Runner
+    ansible.builtin.include_role:
+      name: ansible-user_management
+
+  - name: Install github runner
+    ansible.builtin.include_role:
+      name: ansible-github_actions_runner
+
+  - name: Configure xRDP
+    block:
+      - name: Prepare bootstrap
+        ansible.builtin.script: ./copy.sh
+
+  - name: "Flush handlers"
+    ansible.builtin.meta: flush_handlers
